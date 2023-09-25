@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="nav" id="nav">
+    <ul class="menu">
+        <li class="menu-item">
+            <a href="/static">index</a>
+        </li>
+        <li class="menu-item">
+            <a href="/member/save">회원가입</a>
+        </li>
+        <li class="menu-item">
+            <a href="/members">회원목록</a>
+        </li>
+        <li class="menu-item" id="login-area">
+
+        </li>
+    </ul>
+    <script th:inline="javascript">
+        const loginArea = document.getElementById("login-area");
+        const loginEmail = [[${session.loginEmail}]];
+        console.log(loginEmail);
+        // console.log(loginEmail.length);
+        if (loginEmail != null) {
+            // 로그인 했음
+            loginArea.innerHTML = "<a href='/mypage'>" + loginEmail + "님 환영해요!</a>" +
+                "<a href='/logout'>logout</a>";
+        } else {
+            // 로그인 안했음
+            loginArea.innerHTML = "<a href='/member/login'>로그인</a>";
+        }
+    </script>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:fragment="footer" id="footer">
+  <script>
+    const date = new Date();
+    const footer = document.getElementById("footer");
+    footer.innerHTML = "<p>&copy;  " + date.getFullYear() + "&nbsp; codingrecipe All rights reserved. </p>";
+  </script>
+</div>
+</body>
+</html>

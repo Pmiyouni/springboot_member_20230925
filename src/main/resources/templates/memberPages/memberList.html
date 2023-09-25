@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th>id</th>
+    <th>계정</th>
+    <th>비밀번호</th>
+    <th>이름</th>
+    <th>생년월일</th>
+    <th>전화번호</th>
+    <th>조회</th>
+    <th>수정</th>
+  </tr>
+  <tr th:each="member: ${memberlist}">
+    <td>
+      <a th:href="@{|/member/${member.id}|}" th:text="${member.id}"></a>
+    </td>
+    <td th:text="|계정: ${member.memberEmail}|"></td>
+    <td th:text="|비밀번호: ${member.memberPassword}|"></td>
+    <td th:text="|이름: ${member.memberName}|"></td>
+    <td th:text="|생년월일: ${member.memberBirth}|"></td>
+    <td th:text="|전화번호: ${member.memberMobile}|"></td>
+
+    <td>
+      <button th:onclick="detail([[${member.id}]])">조회</button>
+    </td>
+    <td>
+      <button th:onclick="update_fn([[${member.id}]])">수정</button>
+    </td>
+    <td>
+      <button th:onclick="delete_fn([[${member.id}]])">삭제</button>
+    </td>
+  </tr>
+</table>
+</body>
+<script th:inline="javascript">
+  const detail = (id) => {
+    location.href = `/member/${id}`;
+  }
+  const update_fn = (id) => {
+    location.href = `/member/update/${id}`;
+  }
+  const delete_fn = (id) => {
+    location.href = `/member/delete/${id}`;
+  }
+</script>
+</html>

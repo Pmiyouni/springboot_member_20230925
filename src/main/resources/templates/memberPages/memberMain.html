@@ -1,0 +1,21 @@
+<<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="container">
+  <p th:text="|${session.loginEmail} 님 환영합니다!|"></p>
+</div>
+
+
+<a href="/member/logout">로그아웃</a> <br>
+<a href="/">index로 이동</a> <br>
+
+<div th:replace="~{component/footer :: footer}"></div>
+
+</body>
+</html>

@@ -1,19 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+  <th:block th:replace="~{component/config :: config}"></th:block>
 </head>
 <body>
-<h2>update</h2>
-<form action="/member/update" method="post">
-  <input type="hidden" name="id" th:value="${member.id}">
-  <input type="text" name="memberEmail)" th:value="${member.memberEmail)}" placeholder="계정"><br>
-  <input type="text" name="memberPassword)" th:value="${member.memberPassword)}" placeholder="비밀번호"> <br>
-  <input type="text" name="memberName" th:value="${member.memberName}" placeholder="이름"> <br>
-  <input type="text" name="memberBirth" th:value="${member.memberBirth}" placeholder="생년월일"> <br>
-  <input type="text" name="memberMobile" th:value="${member.memberMobile}" placeholder="전화번호"> <br>
-  <input type="submit" value="수정">
-</form>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="container">
+  <!-- 화면에 보여질 내용이 들어갈 부분 -->
+  <form action="/member/update" method="post" name="updateForm">
+    <input type="hidden" name="id" th:value="${member.id}">
+    <input type="text" class="form-control" name="memberEmail" th:value="${member.memberEmail}" readonly> <br>
+    <input type="text" name="memberPassword" placeholder="비밀번호"> <br>
+    <input type="text" name="memberName" placeholder="이름" th:value="${member.memberName}"> <br>
+    <input type="date" name="memberBirth" th:value="${member.memberBirth}"> <br>
+    <input type="text" name="memberMobile" placeholder="전화번호" th:value="${member.memberMobile}"> <br>
+    <input type="button" value="수정" onclick="member_update()">
+  </form>
+</div>
+
+<div th:replace="~{component/footer :: footer}"></div>
+
 </body>
+<script th:inline="javascript">
+  const member_update = () => {
+    const passDB = [[${member.memberPassword}]];
+    const passInput = document.querySelector('[name="memberPassword"]').value;
+    const id = document.querySelector('[name="id"]').value;
+    const name = document.querySelector('[name="memberName"]').value;
+    const birth = document.querySelector('[name="memberBirth"]').value;
+    const email = document.querySelector('[name="memberEmail"]').value;
+    const mobile = document.querySelector('[name="memberMobile"]').value;
+    if (passDB == passInput) {
+      // document.updateForm.submit();
+      axios({
+        method: "put",
+        url: `/member/${id}`,
+        data: {
+          id: id,
+          memberEmail: email,
+          memberPassword: passInput,
+          memberName: name,
+          memberBirth: birth,
+          memberMobile: mobile
+        }
+      }).then(res => {
+        alert("정보수정이 완료되었습니다. 로그인화면으로 이동합니다.");
+        location.href = "/member/login";
+      }).catch(err => {
+        alert("정보수정에 실패하였습니다!");
+      });
+    } else {
+      alert("비밀번호가 일치하지 않습니다!");
+    }
+  }
+
+</script>
 </html>

@@ -1,52 +1,92 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+  <th:block th:replace="~{component/config :: config}"></th:block>
 </head>
 <body>
-<table>
-  <tr>
-    <th>id</th>
-    <th>계정</th>
-    <th>비밀번호</th>
-    <th>이름</th>
-    <th>생년월일</th>
-    <th>전화번호</th>
-    <th>조회</th>
-    <th>수정</th>
-  </tr>
-  <tr th:each="member: ${memberlist}">
-    <td>
-      <a th:href="@{|/member/${member.id}|}" th:text="${member.id}"></a>
-    </td>
-    <td th:text="|계정: ${member.memberEmail}|"></td>
-    <td th:text="|비밀번호: ${member.memberPassword}|"></td>
-    <td th:text="|이름: ${member.memberName}|"></td>
-    <td th:text="|생년월일: ${member.memberBirth}|"></td>
-    <td th:text="|전화번호: ${member.memberMobile}|"></td>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
 
-    <td>
-      <button th:onclick="detail([[${member.id}]])">조회</button>
-    </td>
-    <td>
-      <button th:onclick="update_fn([[${member.id}]])">수정</button>
-    </td>
-    <td>
-      <button th:onclick="delete_fn([[${member.id}]])">삭제</button>
-    </td>
-  </tr>
-</table>
+<div class="container">
+  <table class="table table-hover">
+    <tr>
+      <th>id</th>
+      <th>email</th>
+      <th>name</th>
+      <th>birth</th>
+      <th>mobile</th>
+    </tr>
+    <tr th:each="member: ${memberList}">
+      <td th:text="${member.id}"></td>
+      <td>
+        <a th:href="@{|/member/${member.id}|}" th:text="${member.memberEmail}"></a>
+      </td>
+      <td th:text="${member.memberName}"></td>
+      <td th:text="${member.memberBirth}"></td>
+      <td th:text="${member.memberMobile}"></td>
+      <td>
+        <button th:onclick="member_detail([[${member.id}]])">조회</button>
+      </td>
+      <td>
+        <button th:onclick="member_delete([[${member.id}]])">삭제</button>
+      </td>
+    </tr>
+  </table>
+  <div id="detail-area">
+
+  </div>
+</div>
+
+<div th:replace="~{component/footer :: footer}"></div>
+
 </body>
 <script th:inline="javascript">
-  const detail = (id) => {
-    location.href = `/member/${id}`;
+
+  const member_detail = (id) => {
+    // location.href = `/member/${id}`;
+    const detailArea = document.querySelector("#detail-area");
+
+    axios({
+      method: "get",
+      url: `/member/axios/${id}`
+    }).then(res => {
+      console.log("res", res);
+      console.log("data", res.data);
+      console.log("email", res.data.memberEmail);
+      let result = "<table class=\"table table-striped\">\n" +
+              "    <tr>\n" +
+              "      <th>id</th>\n" +
+              "      <td>" + res.data.id + "</td>\n" +
+              "    </tr>\n" +
+              "    <tr>\n" +
+              "      <th>email</th>\n" +
+              "      <td>" + res.data.memberEmail + "</td>\n" +
+              "    </tr>\n" +
+              "    <tr>\n" +
+              "      <th>name</th>\n" +
+              "      <td>" + res.data.memberName + "</td>\n" +
+              "    </tr>\n" +
+              "  </table>";
+      detailArea.innerHTML = result;
+
+    }).catch(err => {
+      console.log("err", err);
+    });
   }
-  const update_fn = (id) => {
-    location.href = `/member/update/${id}`;
-  }
-  const delete_fn = (id) => {
-    location.href = `/member/delete/${id}`;
+
+  const member_delete = (id) => {
+   // location.href = `/member/delete/${id}`;
+
+    axios({
+      method: "delete",
+      url: `/member/${id}`
+    }).then(res => {
+     alert("삭제성공");
+      location.href = "/member";
+    }).catch(err => {
+      alert("삭제실패");
+    });
+
   }
 </script>
 </html>

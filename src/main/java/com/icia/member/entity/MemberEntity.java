@@ -36,8 +36,8 @@ public class MemberEntity {
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
-        memberEntity.setMemberBirth(memberEntity.getMemberBirth());
-        memberEntity.setMemberMobile(memberEntity.getMemberMobile());
+        memberEntity.setMemberBirth(memberDTO.getMemberBirth());
+        memberEntity.setMemberMobile(memberDTO.getMemberMobile());
         return memberEntity;
     }
     public static MemberEntity toUpdateEntity(MemberDTO memberDTO){

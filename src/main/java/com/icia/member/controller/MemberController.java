@@ -57,6 +57,7 @@ public class MemberController {
     public String myPage() {
         return "memberPages/memberMain";
     }
+
     // /member
     @GetMapping
     public String findAll(Model model) {
@@ -120,9 +121,11 @@ public class MemberController {
         session.removeAttribute("loginEmail");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
         memberService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

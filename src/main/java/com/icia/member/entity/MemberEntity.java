@@ -8,9 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Setter(AccessLevel.PRIVATE)
 @Getter
-@Table(name="member_table")
+@Setter(AccessLevel.PRIVATE)
+@Table(name = "member_table")
 public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,17 +21,17 @@ public class MemberEntity {
 
     @Column(nullable = false)
     private String memberPassword;
+
     @Column(nullable = false)
     private String memberName;
+
     @Column
     private String memberBirth;
+
     @Column
     private String memberMobile;
 
-
-    //dto->entity 변환매서드
-    public static MemberEntity toSaveEntity(MemberDTO memberDTO){
-        //입력은 MemberDTO 출력은 MemberEntity
+    public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
@@ -40,22 +40,15 @@ public class MemberEntity {
         memberEntity.setMemberMobile(memberDTO.getMemberMobile());
         return memberEntity;
     }
-    public static MemberEntity toUpdateEntity(MemberDTO memberDTO){
+
+    public static MemberEntity toUpdateEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(memberDTO.getId());
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
-        memberEntity.setMemberBirth(memberEntity.getMemberBirth());
-        memberEntity.setMemberMobile(memberEntity.getMemberMobile());
+        memberEntity.setMemberBirth(memberDTO.getMemberBirth());
+        memberEntity.setMemberMobile(memberDTO.getMemberMobile());
         return memberEntity;
     }
-
 }
-
-
-
-
-
-
-

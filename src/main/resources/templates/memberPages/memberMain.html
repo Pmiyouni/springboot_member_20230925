@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <th:block th:replace="~{component/config :: config}"></th:block>
@@ -8,14 +8,35 @@
 <div th:replace="~{component/nav :: nav}"></div>
 
 <div class="container">
-  <p th:text="|${session.loginEmail} 님 환영합니다!|"></p>
+  <form action="/member/save" method="post">
+    <input type="text" class="form-control" name="memberEmail" placeholder="이메일" onblur="email_check()"> <br>
+    <input type="text" name="memberPassword" placeholder="비밀번호"> <br>
+    <input type="text" name="memberName" placeholder="이름"> <br>
+    <input type="date" name="memberBirth"> <br>
+    <input type="text" name="memberMobile" placeholder="전화번호"> <br>
+    <input type="submit" value="회원가입">
+  </form>
 </div>
 
-<a href="/member/update">정보수정</a> <br>
-<a href="/member/logout">로그아웃</a> <br>
-<a href="/">index로 이동</a> <br>
-
 <div th:replace="~{component/footer :: footer}"></div>
-
 </body>
+<script th:inline="javascript">
+  const email_check = () => {
+    const email = document.querySelector('[name="memberEmail"]').value;
+    axios({
+      method: "post", // http request method(get, post, put, delete...)
+      url: "/member/dup-check",
+      data: {
+        memberEmail: email
+      }
+    }).then(res => {
+      // 요청성공 후 서버에서 200 응답
+      console.log("res", res);
+    }).catch(err => {
+      // 요청실패 또는 서버에서 4xx, 5xx 응답
+      console.log("err", err);
+    });
+
+  }
+</script>
 </html>

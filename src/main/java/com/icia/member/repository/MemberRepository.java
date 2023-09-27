@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<MemberEntity,Long> {
     //interface는 추상매서드(abstract method)만 정의함
     // 즉 실행블록(실행내용)을 정의하지 못함({}는 사용 못함)
-
+    // 추상메서드(abstract method)
     Optional<MemberEntity>  findByMemberEmail(String memberEmail);
     // select * from member_table where member_email=?
     //jpa에서 이름 규칙 정하여 퀴리문 지정하니 이름 철자 틀리면 안됨

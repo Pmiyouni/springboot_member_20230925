@@ -15,6 +15,8 @@
       <th>name</th>
       <th>birth</th>
       <th>mobile</th>
+      <th>조회</th>
+      <th>삭제</th>
     </tr>
     <tr th:each="member: ${memberList}">
       <td th:text="${member.id}"></td>
@@ -41,13 +43,11 @@
 
 </body>
 <script th:inline="javascript">
-
   const member_detail = (id) => {
     // location.href = `/member/${id}`;
     const detailArea = document.querySelector("#detail-area");
-
     axios({
-      method: "get",
+      method: "post",
       url: `/member/axios/${id}`
     }).then(res => {
       console.log("res", res);
@@ -68,25 +68,22 @@
               "    </tr>\n" +
               "  </table>";
       detailArea.innerHTML = result;
-
     }).catch(err => {
       console.log("err", err);
     });
   }
 
   const member_delete = (id) => {
-   // location.href = `/member/delete/${id}`;
-
+    // location.href = `/member/delete/${id}`;
     axios({
       method: "delete",
       url: `/member/${id}`
     }).then(res => {
-     alert("삭제성공");
+      alert("삭제 성공");
       location.href = "/member";
     }).catch(err => {
-      alert("삭제실패");
+      alert("삭제 실패");
     });
-
   }
 </script>
 </html>

@@ -8,35 +8,53 @@
 <div th:replace="~{component/nav :: nav}"></div>
 
 <div class="container">
-    <form action="/member/save" method="post">
-        <input type="text" class="form-control" name="memberEmail" placeholder="이메일" onblur="email_check()"> <br>
+    <!-- 화면에 보여질 내용이 들어갈 부분 -->
+    <form action="/member/update" method="post" name="updateForm">
+        <input type="hidden" name="id" th:value="${member.id}">
+        <input type="text" class="form-control" name="memberEmail" th:value="${member.memberEmail}" readonly> <br>
         <input type="text" name="memberPassword" placeholder="비밀번호"> <br>
-        <input type="text" name="memberName" placeholder="이름"> <br>
-        <input type="date" name="memberBirth"> <br>
-        <input type="text" name="memberMobile" placeholder="전화번호"> <br>
-        <input type="submit" value="회원가입">
+        <input type="text" name="memberName" placeholder="이름" th:value="${member.memberName}"> <br>
+        <input type="date" name="memberBirth" th:value="${member.memberBirth}"> <br>
+        <input type="text" name="memberMobile" placeholder="전화번호" th:value="${member.memberMobile}"> <br>
+        <input type="button" value="수정" onclick="member_update()">
     </form>
 </div>
 
 <div th:replace="~{component/footer :: footer}"></div>
+
 </body>
 <script th:inline="javascript">
-    const email_check = () => {
+    const member_update = () => {
+        const passDB = [[${member.memberPassword}]];
+        const passInput = document.querySelector('[name="memberPassword"]').value;
+        const id = document.querySelector('[name="id"]').value;
+        const name = document.querySelector('[name="memberName"]').value;
+        const birth = document.querySelector('[name="memberBirth"]').value;
         const email = document.querySelector('[name="memberEmail"]').value;
-        axios({
-            method: "post", // http request method(get, post, put, delete...)
-            url: "/member/dup-check",
-            data: {
-                memberEmail: email
-            }
-        }).then(res => {
-            // 요청성공 후 서버에서 200 응답
-            console.log("res", res);
-        }).catch(err => {
-            // 요청실패 또는 서버에서 4xx, 5xx 응답
-            console.log("err", err);
-        });
-
+        const mobile = document.querySelector('[name="memberMobile"]').value;
+        if (passDB == passInput) {
+            // document.updateForm.submit();
+            axios({
+                method: "put",
+                url: `/member/${id}`,
+                data: {
+                    id: id,
+                    memberEmail: email,
+                    memberPassword: passInput,
+                    memberName: name,
+                    memberBirth: birth,
+                    memberMobile: mobile
+                }
+            }).then(res => {
+                alert("정보수정이 완료되었습니다. 로그인화면으로 이동합니다.");
+                location.href = "/member/login";
+            }).catch(err => {
+                alert("정보수정에 실패하였습니다!");
+            });
+        } else {
+            alert("비밀번호가 일치하지 않습니다!");
+        }
     }
+
 </script>
 </html>

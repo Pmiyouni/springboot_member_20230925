@@ -9,37 +9,32 @@
 
 <div class="container">
     <!-- 화면에 보여질 내용이 들어갈 부분 -->
-    <table>
+    <table class="table table-hover">
         <tr>
             <th>id</th>
             <td th:text="${member.id}"></td>
         </tr>
         <tr>
-            <th>계정</th>
+            <th>email</th>
             <td th:text="${member.memberEmail}"></td>
         </tr>
         <tr>
-            <th>비밀번호</th>
-            <td th:text="${member.memberPassword}"></td>
-        </tr>
-        <tr>
-            <th>이름</th>
+            <th>name</th>
             <td th:text="${member.memberName}"></td>
         </tr>
         <tr>
-            <th>생년월일</th>
+            <th>birth</th>
             <td th:text="${member.memberBirth}"></td>
         </tr>
         <tr>
-            <th>전화번호</th>
+            <th>mobile</th>
             <td th:text="${member.memberMobile}"></td>
         </tr>
     </table>
+
 </div>
 
 <div th:replace="~{component/footer :: footer}"></div>
 
 </body>
-
-</script>
 </html>

@@ -35,6 +35,7 @@ public class MemberService {
         // 1.
 //        MemberEntity memberEntity = memberRepository.findByMemberEmail(memberDTO.getMemberEmail())
 //                                                    .orElseThrow(() -> new NoSuchElementException());
+        // 값이 없는 경우 orElseThrow()를 통해 명시적으로 예외를 던질 것
         // 2. email, password 둘다 만족하는 조회결과가 있다면 로그인성공, 없다면 로그인실패
         Optional<MemberEntity> optionalMemberEntity =
                 memberRepository.findByMemberEmailAndMemberPassword(memberDTO.getMemberEmail(), memberDTO.getMemberPassword());
